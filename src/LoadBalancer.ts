@@ -1,26 +1,38 @@
 import Database from "./Database";
 import {setInterval} from "timers";
+
 const fetch = require('node-fetch');
 
 
 export default class LoadBalancer {
 
+    intervalID;
+    databeseCount = 0;
+    activeDatabseCount = 0;
+
     private static instance: LoadBalancer = new LoadBalancer();
 
     private databases: Database[];
-    private queryList: string[];
+    private queryList: { query: string, type: string, callback: any }[];
+
 
     private constructor() {
         LoadBalancer.instance = this;
-        setInterval(this.manageQueries, 100)
+       this.intervalID = setInterval(this.manageQueries, 100)
     }
 
     public static getInstance(): LoadBalancer {
         return LoadBalancer.instance;
     }
 
-    public addDatabase(port: string): void {
-        this.databases.push(new Database(port))
+    setActieDatabaseCount(){
+        this.activeDatabseCount++;
+        if(this.activeDatabseCount >= this.databeseCount)
+            this.intervalID = setInterval(this.manageQueries, 100);
+    }
+    public addDatabase(options: { port: string, name: string, password: string }): void {
+        this.databases.push(new Database(options))
+        this.databeseCount++;
     }
 
     public deleteDatabase(port: string): boolean {
@@ -30,18 +42,34 @@ export default class LoadBalancer {
             return false;
         else {
             this.databases = filteredDatabases;
+            this.databases--;
             return true;
         }
     }
 
-    public sendQuery(query: string) {
-        this.queryList.push(query);
+    public sendQuery(query: string, callback ) {
+        let type = this.getQueryType(query);
+        this.queryList.push({query: query, type: type, callback: callback});
     }
 
 
+
+    private getQueryType(query: string): string {
+        query = query.toUpperCase();
+        if (query.includes('DELETE') ||
+            query.includes('UPDATE') ||
+            query.includes('CREATE') ||
+            query.includes('DROP') ||
+            query.includes('INSERT'))
+            return 'modify';
+        else
+            return 'not-modify';
+
+    }
+
     private checkHealth(db: Database): void {
         let t1 = new Date().getMilliseconds();
-        fetch('localhost:' + db.port, {timeout: 2000}, res => {
+         fetch('localhost:' + db.port, {timeout: 2000}, res => {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;
                 db.lastTimeResponse = 999999;
@@ -49,27 +77,29 @@ export default class LoadBalancer {
             else {
                 db.active = true;
                 db.lastTimeResponse = new Date().getMilliseconds() - t1;
-                console.log('Last time response', db.lastTimeResponse);
             }
             this.sortDatabasesByAccesability();
         })
     }
 
-    private manageQueries(){
-        let database = this.findSuitableDatabase();
-        if(database !== undefined){
-            database.sendQuery(this.queryList[0]);
-            this.checkHealth(database);
+    private manageQueries() {
+        let query = this.queryList[0];
+        if (!query)
+            return;
+
+        if (query.type === 'modify'){
+            this.activeDatabseCount = 0;
+            this.databases.forEach(e => e.sendQuery(query));
+            clearInterval(this.intervalID);
             this.queryList.shift();
+            return;
+        }
+        else {
+            this.databases.forEach(e => this.checkHealth(e))
+            this.databases[0].sendQuery(query);
         }
     }
-
-    private findSuitableDatabase(): Database {
-        if(this.databases[0].active)
-            return this.databases[0]
-    }
-
-    private sortDatabasesByAccesability(){
+    private sortDatabasesByAccesability() {
         this.databases = this.databases.sort((a, b) => a.lastTimeResponse - b.lastTimeResponse)
     }
 
