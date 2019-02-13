@@ -19,12 +19,15 @@ export default class LoadBalancer {
 
 
     private constructor(strategy: string = null) {
+        /*
         if(strategy === null && this.strategy)
             return;
         else if(strategy === null && this.strategy === null)
             strategy = 'DNSDelegation';
-
-
+        */
+        
+        if(strategy === null) strategy = 'DNSDelegation';
+        
         if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
         else if(strategy === 'RoundRobinDNS')
@@ -34,7 +37,8 @@ export default class LoadBalancer {
     }
 
     public static getInstance(strategy: string = null): LoadBalancer {
-        if(!LoadBalancer.instance)
+        //if(!LoadBalancer.instance)
+        if(!LoadBalancer.instance || strategy != null)
             LoadBalancer.instance = new LoadBalancer(strategy);
 
         return LoadBalancer.instance;
@@ -52,7 +56,8 @@ export default class LoadBalancer {
             return false;
         else {
             this.databases = filteredDatabases;
-            this.databases--;
+            //this.databases--;
+            this.databaseCount--;
             return true;
         }
     }
