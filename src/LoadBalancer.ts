@@ -19,8 +19,11 @@ export default class LoadBalancer {
 
 
     private constructor(strategy: string = null) {
-        if(this.strategy)
+        if(strategy === null && this.strategy)
             return;
+        else if(strategy === null && this.strategy === null)
+            strategy = 'DNSDelegation';
+
 
         if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
@@ -31,10 +34,8 @@ export default class LoadBalancer {
     }
 
     public static getInstance(strategy: string = null): LoadBalancer {
-        if(strategy === null)
-            strategy = 'DNSDelegation';
         if(!LoadBalancer.instance)
-            LoadBalancer.instance = new LoadBalancer(strategy); //defaultowo jest DNSDelegation
+            LoadBalancer.instance = new LoadBalancer(strategy);
 
         return LoadBalancer.instance;
     }
