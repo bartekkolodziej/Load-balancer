@@ -19,7 +19,7 @@ const handler = serverNum => (req, res) => {
     if (serverNum === 1) {
         setTimeout(() => {
             console.log('settimeout finished');
-            res.send(`Hello from server ${serverNum}!`);
+            res.send(`Hello from server ${serverNum}!!!`);
         }, 3000);
     } else {
         res.send(`Hello from server ${serverNum}!`);
