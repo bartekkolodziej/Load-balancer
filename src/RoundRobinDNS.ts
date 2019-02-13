@@ -1,12 +1,11 @@
 import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
 import LoadBalancer from "./LoadBalancer";
 
-
 export default class RoundRobinDNS extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
+    loadBalancer!: LoadBalancer;
 
-    intervalID;
+    intervalID!: NodeJS.Timeout;
 
     constructor(){
         super();

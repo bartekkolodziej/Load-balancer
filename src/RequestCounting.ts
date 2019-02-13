@@ -1,27 +1,27 @@
-import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
-import LoadBalancer from "./LoadBalancer";
-import {Query} from "./Query";
+import { LoadBalancingStrategy } from "./LoadBalancingStrategy";
+import LoadBalancer from './LoadBalancer';
 
+import Query from "./Query";
 
-export default class RequestCounting extends LoadBalancingStrategy{
+export default class RequestCounting extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
+    loadBalancer!: LoadBalancer;
 
-    intervalID;
+    intervalID!: NodeJS.Timeout;
 
-    constructor(){
+    constructor() {
         super();
     }
 
     manageQueries() {
-        if(this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
             return;
 
         let query = this.loadBalancer.queryList[0];
         if (!query)
             return;
 
-        if (query.type === 'modify'){
+        if (query.type === 'modify') {
             clearInterval(this.intervalID);
             this.loadBalancer.activeDatabaseCount = 0;
             this.loadBalancer.databases.forEach(e => e.sendQuery(query));
@@ -33,18 +33,25 @@ export default class RequestCounting extends LoadBalancingStrategy{
         }
     }
 
-    manageNotModifyingQueries(){
+    manageNotModifyingQueries() {
         let notModifyingQueries: Query[] = [];
-        for(let q of this.loadBalancer.queryList){
-            if(q.type !== 'modify')
-                notModifyingQueries.push(this.loadBalancer.queryList.shift());
+        for (let q of this.loadBalancer.queryList) {
+            if (q.type !== 'modify') {
+                let shiftVal = this.loadBalancer.queryList.shift();
+                if (shiftVal)
+                    notModifyingQueries.push(shiftVal);
+            }
             else
                 break;
         }
 
         //narazie ten algorytm zakłada że współczynnik udziału jest równy i rozdziela po równo zapytania
-        while(notModifyingQueries.length !== 0){
-            this.loadBalancer.databases.forEach(db => db.sendQuery(notModifyingQueries.shift()))
+        let shiftVal:any;
+        while (notModifyingQueries.length !== 0) {
+            shiftVal = notModifyingQueries.shift();
+            if (shiftVal) {
+                this.loadBalancer.databases.forEach(db => db.sendQuery(shiftVal))
+            }
         }
     }
 

@@ -1,17 +1,19 @@
 import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
 import LoadBalancer from "./LoadBalancer";
 import Database from "./Database";
+
 const fetch = require('node-fetch');
 
 
 export default class DNSDelegation extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
+    loadBalancer!: LoadBalancer;
 
-    intervalID;
+    intervalID!: NodeJS.Timeout;
 
     constructor(){
         super();
+        // this.loadBalancer = new LoadBalancer('ss')
     }
 
      manageQueries() {
@@ -43,7 +45,7 @@ export default class DNSDelegation extends LoadBalancingStrategy {
 
     private checkHealth(db: Database): void {
         let t1 = new Date().getMilliseconds();
-        fetch('localhost:' + db.port, {timeout: 2000}, res => {
+        fetch('localhost:' + db.port, {timeout: 2000}, (res:any) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;
                 db.lastTimeResponse = 999999;
