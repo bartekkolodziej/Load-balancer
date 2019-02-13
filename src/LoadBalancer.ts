@@ -19,6 +19,9 @@ export default class LoadBalancer {
 
 
     private constructor(strategy: string = null) {
+        if(this.strategy)
+            return;
+
         if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
         else if(strategy === 'RoundRobinDNS')
