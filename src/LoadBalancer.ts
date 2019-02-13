@@ -41,13 +41,6 @@ export default class LoadBalancer {
             this.strategy = new RequestCounting()
     }
 
-    public static getInstance(strategy: string = ''): LoadBalancer {
-        //if(!LoadBalancer.instance)
-        if (!LoadBalancer.instance || strategy != '')
-            LoadBalancer.instance = new LoadBalancer(strategy);
-
-        return LoadBalancer.instance;
-    }
 
     public addDatabase(options: DatabaseOptions): void {
         this.databases.push(new Database(options));
