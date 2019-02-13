@@ -1,20 +1,19 @@
 import { LoadBalancingStrategy } from "./LoadBalancingStrategy";
-import LoadBalancer from './LoadBalancer';
-
 import Query from "./Query";
+import LoadBalancer from "./LoadBalancer";
 
 export default class RequestCounting extends LoadBalancingStrategy {
 
-    loadBalancer!: LoadBalancer;
-
+    loadBalancer: LoadBalancer;
     intervalID!: NodeJS.Timeout;
 
     constructor() {
         super();
+        this.loadBalancer = LoadBalancer.getInstance()
     }
 
     manageQueries() {
-        if (this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
             return;
 
         let query = this.loadBalancer.queryList[0];

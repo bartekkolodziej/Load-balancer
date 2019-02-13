@@ -1,23 +1,21 @@
 import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
-import LoadBalancer from "./LoadBalancer";
 import Database from "./Database";
+import LoadBalancer from "./LoadBalancer";
 
 const fetch = require('node-fetch');
 
 
 export default class DNSDelegation extends LoadBalancingStrategy {
 
-    loadBalancer!: LoadBalancer;
-
-    intervalID!: NodeJS.Timeout;
+    loadBalancer: LoadBalancer;
 
     constructor(){
         super();
-        // this.loadBalancer = new LoadBalancer('ss')
+        this.loadBalancer = LoadBalancer.getInstance()
     }
 
      manageQueries() {
-         if(this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+         if(!this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
              return;
 
         let query = this.loadBalancer.queryList[0];

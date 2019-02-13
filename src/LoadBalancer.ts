@@ -8,15 +8,14 @@ import { DatabaseOptions } from "./DatabaseOptions";
 
 
 export default class LoadBalancer {
-// class LoadBalancer {
 
     public strategy!: LoadBalancingStrategy;
     public databaseCount = 0;
     public activeDatabaseCount = 0;
 
     private static instance: LoadBalancer;
-    public databases!: Database[];
-    public queryList!: Query[];
+    public databases: Database[] = [];
+    public queryList: Query[] = [];
 
 
    
