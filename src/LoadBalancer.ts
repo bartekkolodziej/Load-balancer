@@ -18,30 +18,25 @@ export default class LoadBalancer {
     public queryList: Query[];
 
 
-    private constructor(strategy: string = null) {
-        /*
-        if(strategy === null && this.strategy)
-            return;
-        else if(strategy === null && this.strategy === null)
-            strategy = 'DNSDelegation';
-        */
-        
-        if(strategy === null) strategy = 'DNSDelegation';
-        
+    private constructor() {
+        if(!this.strategy)
+            this.strategy = new DNSDelegation();
+    }
+
+    public static getInstance(): LoadBalancer {
+        if(!LoadBalancer.instance)
+            LoadBalancer.instance = new LoadBalancer();
+
+        return LoadBalancer.instance;
+    }
+
+    public setStrategy(strategy: string) {
         if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
         else if(strategy === 'RoundRobinDNS')
             this.strategy = new RoundRobinDNS();
         else if(strategy === 'RequestCounting')
             this.strategy = new RequestCounting()
-    }
-
-    public static getInstance(strategy: string = null): LoadBalancer {
-        //if(!LoadBalancer.instance)
-        if(!LoadBalancer.instance || strategy != null)
-            LoadBalancer.instance = new LoadBalancer(strategy);
-
-        return LoadBalancer.instance;
     }
 
     public addDatabase(options: DatabaseOptions): void {
