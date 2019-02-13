@@ -19,12 +19,21 @@ export default class LoadBalancer {
     public queryList!: Query[];
 
 
-    private constructor(strategy: string = '') {
-        
+   
+    private constructor() {
+        if(!this.strategy)
+            this.strategy = new DNSDelegation();
+    }
 
-        if (strategy === '') strategy = 'DNSDelegation';
+    public static getInstance(): LoadBalancer {
+        if(!LoadBalancer.instance)
+            LoadBalancer.instance = new LoadBalancer();
 
-        if (strategy === 'DNSDelegation')
+        return LoadBalancer.instance;
+    }
+
+    public setStrategy(strategy: string) {
+        if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
         else if (strategy === 'RoundRobinDNS')
             this.strategy = new RoundRobinDNS();

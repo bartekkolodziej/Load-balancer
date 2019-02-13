@@ -34,6 +34,7 @@ export default class DNSDelegation extends LoadBalancingStrategy {
         else {
             this.loadBalancer.databases.forEach(e => this.checkHealth(e));
             this.loadBalancer.databases[0].sendQuery(query);
+            this.loadBalancer.queryList.shift(); // this was probably lacking
         }
     }
 
