@@ -1,44 +1,40 @@
 import Database from "./Database";
-import LoadBalancingStrategy from "./LoadBalancingStrategy";
+import { LoadBalancingStrategy } from "./LoadBalancingStrategy";
 import DNSDelegation from "./DNSDelegation";
 import RoundRobinDNS from "./RoundRobinDNS";
-import {Query} from "./Query";
+import Query from "./Query";
 import RequestCounting from "./RequestCounting";
-import {DatabaseOptions} from "./DatabaseOptions";
+import { DatabaseOptions } from "./DatabaseOptions";
 
 
 export default class LoadBalancer {
+// class LoadBalancer {
 
-    public strategy: LoadBalancingStrategy;
+    public strategy!: LoadBalancingStrategy;
     public databaseCount = 0;
     public activeDatabaseCount = 0;
 
     private static instance: LoadBalancer;
-    public databases: Database[];
-    public queryList: Query[];
+    public databases!: Database[];
+    public queryList!: Query[];
 
 
-    private constructor(strategy: string = null) {
-        /*
-        if(strategy === null && this.strategy)
-            return;
-        else if(strategy === null && this.strategy === null)
-            strategy = 'DNSDelegation';
-        */
+    private constructor(strategy: string = '') {
         
-        if(strategy === null) strategy = 'DNSDelegation';
-        
-        if(strategy === 'DNSDelegation')
+
+        if (strategy === '') strategy = 'DNSDelegation';
+
+        if (strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
-        else if(strategy === 'RoundRobinDNS')
+        else if (strategy === 'RoundRobinDNS')
             this.strategy = new RoundRobinDNS();
-        else if(strategy === 'RequestCounting')
+        else if (strategy === 'RequestCounting')
             this.strategy = new RequestCounting()
     }
 
-    public static getInstance(strategy: string = null): LoadBalancer {
+    public static getInstance(strategy: string = ''): LoadBalancer {
         //if(!LoadBalancer.instance)
-        if(!LoadBalancer.instance || strategy != null)
+        if (!LoadBalancer.instance || strategy != '')
             LoadBalancer.instance = new LoadBalancer(strategy);
 
         return LoadBalancer.instance;
@@ -62,8 +58,8 @@ export default class LoadBalancer {
         }
     }
 
-    public sendQuery(query: string, callback = null, databasePort = null ) {
-       this.strategy.sendQuery(query, callback, databasePort)
+    public sendQuery(query: string, callback = (res:any)=>{}, databasePort = '') {
+        this.strategy.sendQuery(query, callback, databasePort)
     }
 
     static getQueryType(query: string): string {
@@ -78,10 +74,12 @@ export default class LoadBalancer {
             return 'not-modify';
     }
 
-    setActiveDatabaseCount(){
+    setActiveDatabaseCount() {
         this.activeDatabaseCount++;
         this.strategy.notifyAboutActiveDB();
     }
-
-
 }
+
+module.exports = {
+    LoadBalancer
+};
