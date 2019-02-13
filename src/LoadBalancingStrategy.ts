@@ -9,10 +9,10 @@ export abstract class LoadBalancingStrategy {
     intervalID: NodeJS.Timeout;
 
     protected constructor(){
-        this.intervalID = setTimeout(this.manageQueries, 100);
+        this.intervalID = setTimeout(this.manageQueries, 500);
     }
 
-    abstract manageQueries():any;
+    abstract manageQueries(): any;
 
     sendQuery(query: string, callback:any, databasePort: string = ''){
         let type = LoadBalancer.getQueryType(query);

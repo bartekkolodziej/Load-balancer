@@ -53,7 +53,7 @@ const callback = (res: any) => {
 }
 
 let loadBalancer = LoadBalancer.getInstance();
-
+loadBalancer.setStrategy('DNSDelegation');
 loadBalancer.addDatabase({ port: '1000', name: 'asd', password: 'ad', queryRate: 1 });
 loadBalancer.addDatabase({ port: '1001', name: 'asd1', password: 'asd1', queryRate: 2 });
 loadBalancer.addDatabase({ port: '1002', name: 'asd2', password: 'asd2', queryRate: 3 });

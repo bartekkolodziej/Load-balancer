@@ -20,8 +20,6 @@ export default class LoadBalancer {
 
    
     private constructor() {
-        if(!this.strategy)
-            this.strategy = new DNSDelegation();
     }
 
     public static getInstance(): LoadBalancer {
