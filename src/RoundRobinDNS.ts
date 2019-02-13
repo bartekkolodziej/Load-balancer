@@ -29,8 +29,11 @@ export default class RoundRobinDNS extends LoadBalancingStrategy {
         }
         else {
             let database = this.loadBalancer.databases.find(db => db.port === query.databasePort);
-            if(database)
+            if(database){
                 database.sendQuery(query);
+                this.loadBalancer.queryList.shift();
+            }
+                //database.sendQuery(query);
         }
     }
 
