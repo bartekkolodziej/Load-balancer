@@ -1,4 +1,4 @@
-const LoadBalancer = require('./LoadBalancer')
+const LoadBalancer = require('./LoadBalancer.js')
 
 const body = require('body-parser');
 const express = require('express');
@@ -46,21 +46,45 @@ app2.listen(port2, (err) => {
     }
 });
 
+//1 przykladowe uzycie
 
-let loadBalancer = LoadBalancer.getInstance();
+let loadBalancer = LoadBalancer.getInstance('RequestCounting');
 
-loadBalancer.addDatabase('3001');
-loadBalancer.addDatabase('3000');
+loadBalancer.addDatabase({port:'1000', name: 'asd', password: 'asd', queryRate: 1});
+loadBalancer.addDatabase({port:'1001', name: 'asd1', password: 'asd1', queryRate: 2});
+loadBalancer.addDatabase({port:'1002', name: 'asd2', password: 'asd2', queryRate: 3});
+loadBalancer.addDatabase({port:'1003', name: 'asd3', password: 'asd3', queryRate: 4});
 
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('dfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjasdfkjas');
-loadBalancer.sendQuery('1111232131412310784-034444444444444444444444444444444444175-273523=75-847-325784-72354873');
+loadBalancer.sendQuery("SELECT * from table", res => console.log(res));
+loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
+loadBalancer.deleteDatabase('1003');
+
+
+//2 przykladowe uzycie
+
+
+let loadBalancer2 = LoadBalancer.getInstance('DNSDelegation');
+
+loadBalancer2.addDatabase({port:'2000', name: 'asd', password: 'asd'});
+loadBalancer2.addDatabase({port:'2001', name: 'asd1', password: 'asd1'});
+loadBalancer2.addDatabase({port:'2002', name: 'asd2', password: 'asd2'});
+loadBalancer2.addDatabase({port:'2003', name: 'asd3', password: 'asd3'});
+
+loadBalancer2.sendQuery("SELECT * from table", res => console.log(res));
+loadBalancer2.sendQuery("DELETE wszystko nieznam sql xD from table");
+loadBalancer2.deleteDatabase('2003');
+
+
+//3 przykladowe uzycie
+
+
+let loadBalancer3 = LoadBalancer.getInstance('RoundRobinDNS');
+
+loadBalancer3.addDatabase({port:'3000', name: 'asd', password: 'asd'});
+loadBalancer3.addDatabase({port:'3001', name: 'asd1', password: 'asd1'});
+loadBalancer3.addDatabase({port:'3002', name: 'asd2', password: 'asd2'});
+loadBalancer3.addDatabase({port:'3003', name: 'asd3', password: 'asd3'});
+
+loadBalancer3.sendQuery("SELECT * from table", res => console.log(res), 3001);
+loadBalancer3.sendQuery("DELETE wszystko nieznam sql xD from table");
+loadBalancer3.deleteDatabase('3003');
