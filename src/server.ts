@@ -2,7 +2,7 @@ const body = require('body-parser');
 const express = require('express');
 // require('typescript-require');
 // const {LoadBalancer} = require('./LoadBalancer.js');
-const LoadBalancer = require( 'LoadBalancer.js');
+const LoadBalancer = require('./LoadBalancer').LoadBalancer;
 
 const app1 = express();
 const app2 = express();
@@ -60,7 +60,8 @@ loadBalancer.addDatabase({ port: '1002', name: 'asd2', password: 'asd2', queryRa
 loadBalancer.addDatabase({ port: '1003', name: 'asd3', password: 'asd3', queryRate: 4 });
 
 loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
+    console.log('QUERY CALLBACK', res);
 });
+
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
 loadBalancer.deleteDatabase('1003');

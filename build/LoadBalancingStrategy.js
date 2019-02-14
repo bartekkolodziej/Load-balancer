@@ -8,16 +8,16 @@ var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var timers_1 = require("timers");
 var LoadBalancingStrategy = /** @class */ (function () {
     function LoadBalancingStrategy() {
-        this.loadBalancer = LoadBalancer_1.default.getInstance();
-        this.intervalID = setTimeout(this.manageQueries(), 100);
+        this.intervalID = setTimeout(this.manageQueries, 500);
     }
     LoadBalancingStrategy.prototype.sendQuery = function (query, callback, databasePort) {
         if (databasePort === void 0) { databasePort = ''; }
+        console.log('hit');
         var type = LoadBalancer_1.default.getQueryType(query);
-        this.loadBalancer.queryList.push({ query: query, type: type, databasePort: databasePort, callback: callback });
+        LoadBalancer_1.default.getInstance().queryList.push({ query: query, type: type, databasePort: databasePort, callback: callback });
     };
     LoadBalancingStrategy.prototype.notifyAboutActiveDB = function () {
-        if (this.loadBalancer.activeDatabaseCount >= this.loadBalancer.databaseCount)
+        if (LoadBalancer_1.default.getInstance().activeDatabaseCount >= LoadBalancer_1.default.getInstance().databaseCount)
             this.intervalID = timers_1.setInterval(this.manageQueries, 100);
     };
     return LoadBalancingStrategy;
