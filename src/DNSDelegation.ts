@@ -15,7 +15,7 @@ export default class DNSDelegation extends LoadBalancingStrategy {
     }
 
      manageQueries() {
-        this.loadBalancer = LoadBalancer.getInstance();
+        //tu jest blad, loadbalancer jest nullem
 
          if(!this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
              return;
