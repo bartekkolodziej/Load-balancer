@@ -21,28 +21,26 @@ var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var RoundRobinDNS = /** @class */ (function (_super) {
     __extends(RoundRobinDNS, _super);
     function RoundRobinDNS() {
-        var _this = _super.call(this) || this;
-        _this.loadBalancer = LoadBalancer_1.default.getInstance();
-        return _this;
+        return _super.call(this) || this;
     }
     RoundRobinDNS.prototype.manageQueries = function () {
-        if (this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (LoadBalancer_1.default.getInstance().activeDatabaseCount < LoadBalancer_1.default.getInstance().databaseCount)
             return;
-        var query = this.loadBalancer.queryList[0];
+        var query = LoadBalancer_1.default.getInstance().queryList[0];
         if (!query)
             return;
         if (query.type === 'modify') {
             clearInterval(this.intervalID);
-            this.loadBalancer.activeDatabaseCount = 0;
-            this.loadBalancer.databases.forEach(function (e) { return e.sendQuery(query); });
-            this.loadBalancer.queryList.shift();
+            LoadBalancer_1.default.getInstance().activeDatabaseCount = 0;
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return e.sendQuery(query); });
+            LoadBalancer_1.default.getInstance().queryList.shift();
             return;
         }
         else {
-            var database = this.loadBalancer.databases.find(function (db) { return db.port === query.databasePort; });
+            var database = LoadBalancer_1.default.getInstance().databases.find(function (db) { return db.port === query.databasePort; });
             if (database) {
                 database.sendQuery(query);
-                this.loadBalancer.queryList.shift();
+                LoadBalancer_1.default.getInstance().queryList.shift();
             }
         }
     };

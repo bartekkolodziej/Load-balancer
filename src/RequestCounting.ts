@@ -4,39 +4,37 @@ import LoadBalancer from "./LoadBalancer";
 
 export default class RequestCounting extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
     intervalID!: NodeJS.Timeout;
 
     constructor() {
         super();
-        this.loadBalancer = LoadBalancer.getInstance()
     }
 
     manageQueries() {
-        if (this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (LoadBalancer.getInstance().activeDatabaseCount < LoadBalancer.getInstance().databaseCount)
             return;
 
-        let query = this.loadBalancer.queryList[0];
+        let query = LoadBalancer.getInstance().queryList[0];
         if (!query)
             return;
 
         if (query.type === 'modify') {
             clearInterval(this.intervalID);
-            this.loadBalancer.activeDatabaseCount = 0;
-            this.loadBalancer.databases.forEach(e => e.sendQuery(query));
-            this.loadBalancer.queryList.shift();
+            LoadBalancer.getInstance().activeDatabaseCount = 0;
+            LoadBalancer.getInstance().databases.forEach(e => e.sendQuery(query));
+            LoadBalancer.getInstance().queryList.shift();
             return;
         }
         else {
-            this.manageNotModifyingQueries();
+            RequestCounting.manageNotModifyingQueries();
         }
     }
 
-    manageNotModifyingQueries() {
+    static manageNotModifyingQueries() {
         let notModifyingQueries: Query[] = [];
-        for (let q of this.loadBalancer.queryList) {
+        for (let q of LoadBalancer.getInstance().queryList) {
             if (q.type !== 'modify') {
-                let shiftVal = this.loadBalancer.queryList.shift();
+                let shiftVal = LoadBalancer.getInstance().queryList.shift();
                 if (shiftVal)
                     notModifyingQueries.push(shiftVal);
             }
@@ -49,7 +47,7 @@ export default class RequestCounting extends LoadBalancingStrategy {
         while (notModifyingQueries.length !== 0) {
             shiftVal = notModifyingQueries.shift();
             if (shiftVal) {
-                this.loadBalancer.databases.forEach(db => db.sendQuery(shiftVal))
+                LoadBalancer.getInstance().databases.forEach(db => db.sendQuery(shiftVal))
             }
         }
     }
