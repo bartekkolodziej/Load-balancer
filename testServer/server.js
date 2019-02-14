@@ -18,11 +18,11 @@ app2.use(body.json());
 app3.use(body.json());
 
 const handler = (serverNo) => (req, res) => {
-    // if (serverNo == 0) res.end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
+     // if (serverNo == 0) return res.end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
     console.log(`incoming request ...`);
     const json = {};
     json['success'] = `response from server #${serverNo}`;
-    res.send(json);
+    setTimeout(() => res.send(json), 1000);
 };
 
 app0.get('*', handler(0)).post('*', handler(0));

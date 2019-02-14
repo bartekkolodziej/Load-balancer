@@ -22,14 +22,13 @@ var fetch = require('node-fetch');
 var DNSDelegation = /** @class */ (function (_super) {
     __extends(DNSDelegation, _super);
     function DNSDelegation() {
-        var _this = _super.call(this) || this;
-        _this.loadBalancer = LoadBalancer_1.default.getInstance();
-        return _this;
+        return _super.call(this) || this;
     }
     DNSDelegation.checkHealth = function (db) {
         var _this = this;
         var t1 = new Date().getMilliseconds();
-        fetch('localhost:' + db.port, { timeout: 2000 }, function (res) {
+        fetch('http://localhost:' + db.port, { timeout: 2000 })
+            .then(function (res) {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;
                 db.lastTimeResponse = 999999;
@@ -39,9 +38,14 @@ var DNSDelegation = /** @class */ (function (_super) {
                 db.lastTimeResponse = new Date().getMilliseconds() - t1;
             }
             _this.sortDatabasesByAccesability();
+        })
+            .catch(function (err) {
+            db.active = true;
+            db.lastTimeResponse = new Date().getMilliseconds() - t1;
         });
     };
     DNSDelegation.prototype.manageQueries = function () {
+        DNSDelegation.sortDatabasesByAccesability();
         if (LoadBalancer_1.default.getInstance().activeDatabaseCount < LoadBalancer_1.default.getInstance().databaseCount)
             return;
         var query = LoadBalancer_1.default.getInstance().queryList[0];
@@ -61,6 +65,7 @@ var DNSDelegation = /** @class */ (function (_super) {
         }
     };
     DNSDelegation.sortDatabasesByAccesability = function () {
+        console.log('sortuje');
         LoadBalancer_1.default.getInstance().databases = LoadBalancer_1.default.getInstance().databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
     };
     return DNSDelegation;
