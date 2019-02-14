@@ -30,7 +30,6 @@ export default class LoadBalancer {
     }
 
     public setStrategy(strategy: string) {
-        console.log('setuje strategie')
         if(strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation();
         else if (strategy === 'RoundRobinDNS')

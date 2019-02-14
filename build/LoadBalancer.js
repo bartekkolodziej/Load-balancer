@@ -30,7 +30,6 @@ var LoadBalancer = /** @class */ (function () {
     };
     LoadBalancer.prototype.addDatabase = function (options) {
         this.databases.push(new Database_fake_1.default(options));
-        console.log(this.databases.length);
         this.databaseCount++;
         this.activeDatabaseCount++;
     };

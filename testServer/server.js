@@ -19,7 +19,7 @@ app2.use(body.json());
 app3.use(body.json());
 
 const handler = (serverNo) => (req, res) => {
-    // if (serverNo == 0) return res.status(503).end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
+    if (serverNo == 0) return res.status(503).end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
     console.log(`incoming request ...`, req.body, '\n');
     const json = {};
     json['success'] = `response from server #${serverNo}`;

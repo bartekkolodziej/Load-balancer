@@ -19,7 +19,6 @@ export default class Database {
     }
 
     public sendQuery(query: Query) {
-        console.log('SENDING  QUERY');
         if (query.type === 'modify') {
             fetch('http://localhost:' + this.port, {
                 method: 'POST',
@@ -35,7 +34,7 @@ export default class Database {
                     query.callback(json);
                 })
                 .catch((err: any) => {
-                    console.log('====modify ERRRROOOOOOR====', err);
+                    // console.log('====modify ERRRROOOOOOR====', err);
                 })
         } else {
             fetch('http://localhost:' + this.port, {
@@ -49,7 +48,7 @@ export default class Database {
                 .then((res: any) => res.json())
                 .then((json: any) => query.callback(json))
                 .catch((err: any) => {
-                    console.log('====ERRRROOOOOOR====', err);
+                    // console.log('====ERRRROOOOOOR====', err);
                 })
         }
     }

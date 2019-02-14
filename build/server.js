@@ -69,4 +69,22 @@ loadBalancer.sendQuery("SELECT * from table", function (res) {
 loadBalancer.sendQuery("SELECT * from table", function (res) {
     console.log(res);
 });
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+});
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
