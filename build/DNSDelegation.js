@@ -27,7 +27,7 @@ var DNSDelegation = /** @class */ (function (_super) {
     DNSDelegation.checkHealth = function (db) {
         var _this = this;
         var t1 = new Date().getMilliseconds();
-        fetch('http://localhost:' + db.port, { timeout: 2000 })
+        fetch('http://localhost:' + db.port)
             .then(function (res) {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;

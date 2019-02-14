@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Balanser_1 = __importDefault(require("./Balanser"));
 var express = require('express');
 var app1 = express();
+var asciichart = require('asciichart');
 var balanser = new Balanser_1.default();
 balanser.setStrategy('DNSDelegation');
 balanser.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databaseName: 'db' });
@@ -18,13 +19,32 @@ balanser.addDatabase({ port: '1006', userName: 'asd3', password: 'asd3', databas
 balanser.addDatabase({ port: '1007', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
 balanser.addDatabase({ port: '1008', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
 balanser.addDatabase({ port: '1009', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+// let i = 0;
+// while (i < 100) {
+//     balanser.sendQuery("SELECT * from table", (res: any) => {
+//         console.log(res)
+//     });
+//     if(i === 50)
+//         balanser.sendQuery("DROP");
+//     i++
+// }
+// balanser.sendQuery("DELETE");
+// results rendering
 var i = 0;
-while (i < 100) {
+var s0 = [];
+var limit = 100;
+while (i < limit) {
     balanser.sendQuery("SELECT * from table", function (res) {
+        s0.push(res.success[res.success.length - 1]);
         console.log(res);
     });
-    if (i === 50)
-        balanser.sendQuery("DROP");
     i++;
 }
-balanser.sendQuery("DELETE");
+var intervalID = setInterval(function () {
+    if (s0.length == limit) {
+        console.clear();
+        console.log(asciichart.plot(s0));
+        clearInterval(intervalID);
+    }
+}, 2000);
+// end of results rendering
