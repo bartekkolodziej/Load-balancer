@@ -43,13 +43,15 @@ export default class RequestCounting extends LoadBalancingStrategy {
         }
 
         //narazie ten algorytm zakłada że współczynnik udziału jest równy i rozdziela po równo zapytania
-        let shiftVal:any;
-        while (notModifyingQueries.length !== 0) {
-            shiftVal = notModifyingQueries.shift();
-            if (shiftVal) {
-                LoadBalancer.getInstance().databases.forEach(db => db.sendQuery(shiftVal))
+        let queryPerDB = Math.ceil(notModifyingQueries.length/LoadBalancer.getInstance().databaseCount);
+
+        LoadBalancer.getInstance().databases.forEach(db => {
+            for(let i=0; i< queryPerDB; i++) {
+                let shiftVal = notModifyingQueries.shift();
+                if(shiftVal)
+                    db.sendQuery(shiftVal)
             }
-        }
+        })
     }
 
 }

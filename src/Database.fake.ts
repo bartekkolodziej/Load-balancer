@@ -19,6 +19,7 @@ export default class Database {
     }
 
     public sendQuery(query: Query) {
+        //console.log('SENDING  QUERY', query.query);
         if (query.type === 'modify') {
             fetch('http://localhost:' + this.port, {
                 method: 'POST',

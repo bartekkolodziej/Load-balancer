@@ -1,47 +1,30 @@
-var body = require('body-parser');
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Balanser_1 = __importDefault(require("./Balanser"));
 var express = require('express');
-var LoadBalancer = require('./LoadBalancer').LoadBalancer;
-var app = express();
-var asciichart = require('asciichart');
-var port1 = 3000;
-app.use(body.json());
-var handler = function () { return function (req, res) {
-    res.send("Ok");
-}; };
-// Only handle GET and POST requests
-app.get('*', handler()).post('*', handler());
-app.listen(port1, function (err) {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        // console.log(`http://localhost:${port1}/world`);
-    }
-});
-var loadBalancer = LoadBalancer.getInstance();
-loadBalancer.setStrategy('RequestCounting');
-loadBalancer.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databaseName: 'db' });
-loadBalancer.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', databaseName: 'db1' });
-loadBalancer.addDatabase({ port: '1002', userName: 'asd2', password: 'asd2', databaseName: 'db2' });
-loadBalancer.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
-// results rendering
+var app1 = express();
+var balanser = new Balanser_1.default();
+balanser.setStrategy('DNSDelegation');
+balanser.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databaseName: 'db' });
+balanser.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', databaseName: 'db1' });
+balanser.addDatabase({ port: '1002', userName: 'asd2', password: 'asd2', databaseName: 'db2' });
+balanser.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1004', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1005', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1006', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1007', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1008', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
+balanser.addDatabase({ port: '1009', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
 var i = 0;
-var serverNumber;
-var s0 = [];
-var limit = 200;
-while (i < limit) {
-    loadBalancer.sendQuery("SELECT * from table", function (res) {
-        serverNumber = res.success[res.success.length - 1];
-        s0.push(serverNumber);
+while (i < 100) {
+    balanser.sendQuery("SELECT * from table", function (res) {
         console.log(res);
     });
+    if (i === 50)
+        balanser.sendQuery("DROP");
     i++;
 }
-var intervalID = setInterval(function () {
-    if (s0.length == limit) {
-        console.log(asciichart.plot(s0));
-        clearInterval(intervalID);
-    }
-}, 2000);
-// end of results rendering
-loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
+balanser.sendQuery("DELETE");
