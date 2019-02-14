@@ -1,5 +1,6 @@
 import LoadBalancer from "./LoadBalancer";
 import Query from "./Query";
+import {DatabaseOptions} from "./DatabaseOptions";
 
 const fetch = require('node-fetch');
 
@@ -11,7 +12,7 @@ export default class Database{
     active: boolean;
     lastTimeResponse: number;
 
-    constructor(options: { port: string, name: string, password: string }) {
+    constructor(options: DatabaseOptions) {
         this.port = options.port;
         this.active = true;
         this.lastTimeResponse = 0;
@@ -19,15 +20,16 @@ export default class Database{
     }
 
     public sendQuery(query: Query) {
+        console.log('tutaj jestem')
         if(query.type === 'modify'){
-            fetch('localhost:' + this.port, {method: 'POST', body: query.query})
+            fetch("http://localhost:3000/world", {method: 'POST', body: query.query})
                 .then((res: any) => res.json())
                 .then((json: any) => {
                     this.loadBalancer.setActiveDatabaseCount();
                     query.callback(json);
                 })
         }else{
-            fetch('localhost:' + this.port, {method: 'POST', body: query.query})
+            fetch("http://localhost:3000/world", {method: 'POST', body: query.query})
                 .then((res: any) => res.json())
                 .then((json: any) => query.callback(json))
         }
