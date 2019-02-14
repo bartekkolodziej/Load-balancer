@@ -55,7 +55,7 @@ var RequestCounting = /** @class */ (function (_super) {
         //narazie ten algorytm zakłada że współczynnik udziału jest równy i rozdziela po równo zapytania
         var queryPerDB = Math.ceil(notModifyingQueries.length / LoadBalancer_1.default.getInstance().databaseCount);
         LoadBalancer_1.default.getInstance().databases.forEach(function (db) {
-            for (var i_1 = 0; i_1 < queryPerDB; i_1++) {
+            for (var i = 0; i < queryPerDB; i++) {
                 var shiftVal = notModifyingQueries.shift();
                 if (shiftVal)
                     db.sendQuery(shiftVal);
