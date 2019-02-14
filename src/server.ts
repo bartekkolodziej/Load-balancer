@@ -20,21 +20,18 @@ balanser.addDatabase({ port: '1009', userName: 'asd3', password: 'asd3',  databa
 
 // results rendering
 let i = 0;
-let serverNumber;
 let s0 = [];
 const limit = 200;
 while (i < limit) {
     balanser.sendQuery("SELECT * from table", (res: any) => {
-        serverNumber = res.success[res.success.length - 1]
-        s0.push(serverNumber);
+        s0.push(res.success[res.success.length - 1]);
         console.log(res);
     });
     i++
 
     // //RoundRobinDNS
     // balanser.sendQuery("SELECT * from table", (res: any) => {
-    //     serverNumber = res.success[res.success.length - 1]
-    //     s0.push(serverNumber);
+    //     s0.push(res.success[res.success.length - 1]);
     //     console.log(res);
     // }, (Math.floor(Math.random() * 1009) + 1000).toString());
     // i++
