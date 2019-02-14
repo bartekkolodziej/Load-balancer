@@ -11,6 +11,10 @@ const app2 = express();
 const app3 = express();
 
 const body = require('body-parser');
+// app0.use(body.bodyParser());
+// app1.use(body.bodyParser());
+// app2.use(body.bodyParser());
+// app3.use(body.bodyParser());
 
 app0.use(body.json());
 app1.use(body.json());
@@ -18,12 +22,37 @@ app2.use(body.json());
 app3.use(body.json());
 
 const handler = (serverNo) => (req, res) => {
-    // if (serverNo == 0) res.end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
-    console.log(`incoming request ...`);
+    // if (serverNo == 0) return res.status(503).end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
+    console.log(`incoming request ...`, req.body, '\n');
     const json = {};
     json['success'] = `response from server #${serverNo}`;
     res.send(json);
 };
+
+const setHeader = (req, res, next) => {
+    const origin = req.get('origin');
+
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
+
+    req.method === 'OPTIONS' ? res.sendStatus(204) : next();
+}
+
+app0.use((req, res, next) => {
+    setHeader(req, res, next);
+});
+app1.use((req, res, next) => {
+    setHeader(req, res, next);
+});
+app2.use((req, res, next) => {
+    setHeader(req, res, next);
+});
+app3.use((req, res, next) => {
+    setHeader(req, res, next);
+});
+
 
 app0.get('*', handler(0)).post('*', handler(0));
 app1.get('*', handler(1)).post('*', handler(1));

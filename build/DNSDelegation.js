@@ -29,7 +29,7 @@ var DNSDelegation = /** @class */ (function (_super) {
     DNSDelegation.checkHealth = function (db) {
         var _this = this;
         var t1 = new Date().getMilliseconds();
-        fetch('localhost:' + db.port, { timeout: 2000 }, function (res) {
+        fetch('http://localhost:' + db.port, { timeout: 2000 }, function (res) {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;
                 db.lastTimeResponse = 999999;

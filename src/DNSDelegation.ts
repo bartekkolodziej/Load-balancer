@@ -16,7 +16,7 @@ export default class DNSDelegation extends LoadBalancingStrategy {
 
     static checkHealth(db: Database): void {
         let t1 = new Date().getMilliseconds();
-        fetch('localhost:' + db.port, {timeout: 2000}, (res:any) => {
+        fetch('http://localhost:' + db.port, {timeout: 2000}, (res:any) => {
             if (res.statusCode < 200 || res.statusCode > 299) {
                 db.active = false;
                 db.lastTimeResponse = 999999;

@@ -3,7 +3,7 @@ import Query from "./Query";
 
 const fetch = require('node-fetch');
 
-export default class Database{
+export default class Database {
 
     loadBalancer = LoadBalancer.getInstance();
     queryRate: number; //od 1 do 10
@@ -20,17 +20,37 @@ export default class Database{
 
     public sendQuery(query: Query) {
         console.log('SENDING  QUERY');
-        if(query.type === 'modify'){
-            fetch('http://localhost:' + this.port, {method: 'POST', body: query.query})
+        if (query.type === 'modify') {
+            fetch('http://localhost:' + this.port, {
+                method: 'POST',
+                body: JSON.stringify({"0":query.query}),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+            })
                 .then((res: any) => res.json())
                 .then((json: any) => {
                     this.loadBalancer.setActiveDatabaseCount();
                     query.callback(json);
                 })
-        }else{
-            fetch('http://localhost:' + this.port, {method: 'POST', body: query.query})
+                .catch((err: any) => {
+                    console.log('====modify ERRRROOOOOOR====', err);
+                })
+        } else {
+            fetch('http://localhost:' + this.port, {
+                method: 'POST',
+                body: JSON.stringify({"0":query.query}),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+            })
                 .then((res: any) => res.json())
                 .then((json: any) => query.callback(json))
+                .catch((err: any) => {
+                    console.log('====ERRRROOOOOOR====', err);
+                })
         }
     }
 }
