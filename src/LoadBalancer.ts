@@ -17,8 +17,6 @@ export default class LoadBalancer {
     public databases: Database[] = [];
     public queryList: Query[] = [];
 
-
-   
     private constructor() {
     }
 
