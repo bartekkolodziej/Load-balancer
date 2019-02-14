@@ -21,14 +21,14 @@ export default class Database{
     public sendQuery(query: Query) {
         console.log('SENDING  QUERY');
         if(query.type === 'modify'){
-            fetch('localhost:' + this.port, {method: 'POST', body: query.query})
+            fetch('http://localhost:' + this.port, {method: 'POST', body: query.query})
                 .then((res: any) => res.json())
                 .then((json: any) => {
                     this.loadBalancer.setActiveDatabaseCount();
                     query.callback(json);
                 })
         }else{
-            fetch('localhost:' + this.port, {method: 'POST', body: query.query})
+            fetch('http://localhost:' + this.port, {method: 'POST', body: query.query})
                 .then((res: any) => res.json())
                 .then((json: any) => query.callback(json))
         }
