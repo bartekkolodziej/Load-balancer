@@ -2,7 +2,7 @@ const body = require('body-parser');
 const express = require('express');
 // require('typescript-require');
 // const {LoadBalancer} = require('./LoadBalancer.js');
-const LoadBalancer = require( 'LoadBalancer.js');
+const LoadBalancer = require( './LoadBalancer.js').LoadBalancer;
 
 const app1 = express();
 const app2 = express();

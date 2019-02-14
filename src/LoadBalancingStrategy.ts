@@ -14,10 +14,6 @@ export abstract class LoadBalancingStrategy {
 
     abstract manageQueries(): any;
 
-    sendQuery(query: string, callback:any, databasePort: string = ''){
-        let type = LoadBalancer.getQueryType(query);
-        LoadBalancer.getInstance().queryList.push({query: query, type: type, databasePort: databasePort, callback: callback});
-    }
 
     public notifyAboutActiveDB(){
         if(LoadBalancer.getInstance().activeDatabaseCount >= LoadBalancer.getInstance().databaseCount)

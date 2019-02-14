@@ -32,7 +32,6 @@ export default class RoundRobinDNS extends LoadBalancingStrategy {
                 database.sendQuery(query);
                 this.loadBalancer.queryList.shift();
             }
-                //database.sendQuery(query);
         }
     }
 
