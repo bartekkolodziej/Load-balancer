@@ -26,38 +26,7 @@ var DNSDelegation = /** @class */ (function (_super) {
         _this.loadBalancer = LoadBalancer_1.default.getInstance();
         return _this;
     }
-<<<<<<< HEAD
-    DNSDelegation.prototype.manageQueries = function () {
-        var _this = this;
-<<<<<<< HEAD
-=======
-        this.loadBalancer = LoadBalancer_1.default.getInstance();
->>>>>>> origin/master
-        if (!this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
-            return;
-        var query = this.loadBalancer.queryList[0];
-        if (!query)
-            return;
-        if (query.type === 'modify') {
-            clearInterval(this.intervalID);
-            this.loadBalancer.activeDatabaseCount = 0;
-            this.loadBalancer.databases.forEach(function (e) { return e.sendQuery(query); });
-            this.loadBalancer.queryList.shift();
-            return;
-        }
-        else {
-            this.loadBalancer.databases.forEach(function (e) { return _this.checkHealth(e); });
-            this.loadBalancer.databases[0].sendQuery(query);
-            this.loadBalancer.queryList.shift(); // this was probably lacking
-        }
-    };
-    DNSDelegation.prototype.sortDatabasesByAccesability = function () {
-        this.loadBalancer.databases = this.loadBalancer.databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
-    };
-    DNSDelegation.prototype.checkHealth = function (db) {
-=======
     DNSDelegation.checkHealth = function (db) {
->>>>>>> origin/master
         var _this = this;
         var t1 = new Date().getMilliseconds();
         fetch('localhost:' + db.port, { timeout: 2000 }, function (res) {

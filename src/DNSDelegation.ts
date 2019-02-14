@@ -1,5 +1,5 @@
 import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
-import Database from "./Database";
+import Database from "./Database.fake";
 import LoadBalancer from "./LoadBalancer";
 
 const fetch = require('node-fetch');

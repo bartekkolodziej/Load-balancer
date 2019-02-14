@@ -42,10 +42,6 @@ var RoundRobinDNS = /** @class */ (function (_super) {
                 database.sendQuery(query);
                 LoadBalancer_1.default.getInstance().queryList.shift();
             }
-<<<<<<< HEAD
-            //database.sendQuery(query);
-=======
->>>>>>> origin/master
         }
     };
     return RoundRobinDNS;

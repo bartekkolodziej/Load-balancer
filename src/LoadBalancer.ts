@@ -1,4 +1,4 @@
-import Database from "./Database";
+import Database from "./Database.fake";
 import { LoadBalancingStrategy } from "./LoadBalancingStrategy";
 import DNSDelegation from "./DNSDelegation";
 import RoundRobinDNS from "./RoundRobinDNS";

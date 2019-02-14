@@ -62,5 +62,20 @@ loadBalancer.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3',  da
 loadBalancer.sendQuery("SELECT * from table", (res: any) => {
     console.log(res)
 }, '1000');
+loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    console.log(res)
+}, '1001');
+loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    console.log(res)
+}, '1002');
+loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    console.log(res)
+}, '1001');
+loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    console.log(res)
+}, '1000');
+loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    console.log(res)
+}, '1003');
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
 loadBalancer.deleteDatabase('1003');
