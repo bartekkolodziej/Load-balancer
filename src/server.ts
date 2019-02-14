@@ -28,41 +28,11 @@ loadBalancer.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databa
 loadBalancer.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', databaseName: 'db1' });
 loadBalancer.addDatabase({ port: '1002', userName: 'asd2', password: 'asd2', databaseName: 'db2' });
 loadBalancer.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
-
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
-loadBalancer.sendQuery("SELECT * from table", (res: any) => {
-    console.log(res)
-});
+let i = 0;
+while (i < 30) {
+    loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+        console.log(res)
+    });
+    i++
+}
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");

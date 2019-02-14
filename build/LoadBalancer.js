@@ -20,7 +20,6 @@ var LoadBalancer = /** @class */ (function () {
         return LoadBalancer.instance;
     };
     LoadBalancer.prototype.setStrategy = function (strategy) {
-        console.log('setuje strategie');
         if (strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation_1.default();
         else if (strategy === 'RoundRobinDNS')

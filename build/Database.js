@@ -19,7 +19,6 @@ var Database = /** @class */ (function () {
     }
     Database.prototype.sendQuery = function (query) {
         var _this = this;
-        console.log('czy wypisze?');
         var db = pgp('postgres://' + this.userName + ':' + this.password + '@host:' + this.port + '/' + this.databaseName);
         if (query.type === 'modify') {
             db.one(query.query, 123)
@@ -40,21 +39,6 @@ var Database = /** @class */ (function () {
                 console.log('ERROR:', error);
             });
         }
-        /*
-        console.log('tutaj jestem')
-        if(query.type === 'modify'){
-            fetch("http://localhost:3000/world", {method: 'POST', body: query.query})
-                .then((res: any) => res.json())
-                .then((json: any) => {
-                    this.loadBalancer.setActiveDatabaseCount();
-                    query.callback(json);
-                })
-        }else{
-            fetch("http://localhost:3000/world", {method: 'POST', body: query.query})
-                .then((res: any) => res.json())
-                .then((json: any) => query.callback(json))
-        }
-        */
     };
     return Database;
 }());
