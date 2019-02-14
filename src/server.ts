@@ -1,10 +1,11 @@
 import Balanser from "./Balanser";
-
 const express = require('express');
-
 const app1 = express();
+const asciichart = require('asciichart');
+
 
 let balanser = new Balanser();
+
 balanser.setStrategy('DNSDelegation');
 balanser.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databaseName: 'db'});
 balanser.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', databaseName: 'db1'});
@@ -23,20 +24,28 @@ let serverNumber;
 let s0 = [];
 const limit = 200;
 while (i < limit) {
-    loadBalancer.sendQuery("SELECT * from table", (res: any) => {
+    balanser.sendQuery("SELECT * from table", (res: any) => {
         serverNumber = res.success[res.success.length - 1]
         s0.push(serverNumber);
         console.log(res);
     });
     i++
+
+    // //RoundRobinDNS
+    // balanser.sendQuery("SELECT * from table", (res: any) => {
+    //     serverNumber = res.success[res.success.length - 1]
+    //     s0.push(serverNumber);
+    //     console.log(res);
+    // }, (Math.floor(Math.random() * 1009) + 1000).toString());
+    // i++
+
 }
 
 const intervalID = setInterval(() => {
     if (s0.length == limit) {
+        console.clear();
         console.log(asciichart.plot(s0));
         clearInterval(intervalID);
     }
 }, 2000)
 // end of results rendering
-
-loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");

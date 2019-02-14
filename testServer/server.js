@@ -41,7 +41,7 @@ const handler = (serverNo) => (req, res) => {
     console.log(`incoming request ...`, req.body, '\n');
     const json = {};
     json['success'] = `response from server #${serverNo}`;
-    setTimeout(() => res.send(json), 123);
+    res.send(json);
 };
 
 const setHeader = (req, res, next) => {
