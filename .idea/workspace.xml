@@ -2,19 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8193449-5d01-4d3c-841b-d36b33a06392" name="Default" comment="Stworzylem abstrakcyjna klase &quot;LoadBalancingStrategy&quot; oraz 3 jej rozszerzenia w ramach implementacji wzorca &quot;Strategy&quot;. Dwa nowe intefejsy &quot;Query&quot; oraz &quot;DatabaseOptions&quot; tak zeby kod byl czytalniejszy. Do poprawy z pewnoscia jest kod klasy &quot;Database&quot; i poprawka do algorytmu &quot;RequestCounting&quot;. Na samym koncu trzeba bedzie napisac fasade ktora udostepni tylko kilka metdo z &quot;LoadBalancera&quot; dla klienta (dokladnie to: &quot;sendQuery&quot;, &quot;dddDatabase&quot;, &quot;deleteDatabase&quot; i &quot;getInstance&quot;).">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/DNSDelegation.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/DNSDelegation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/Database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LoadBalancer.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/LoadBalancer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LoadBalancingStrategy.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/LoadBalancingStrategy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/RequestCounting.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/RequestCounting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/RoundRobinDNS.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/RoundRobinDNS.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LoadBalancer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LoadBalancingStrategy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancingStrategy.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RoundRobinDNS.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/RoundRobinDNS.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Database.fake.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.fake.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RequestCounting.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/RequestCounting.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testServer/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/testServer/server.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,47 +18,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoadBalancer.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LoadBalancer.ts">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="62" column="52" lean-forward="true" selection-start-line="62" selection-start-column="52" selection-end-line="62" selection-end-column="52" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="459">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DNSDelegation.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DNSDelegation.ts">
+      <file leaf-file-name="server.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#62#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoadBalancingStrategy.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LoadBalancingStrategy.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoundRobinDNS.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/RoundRobinDNS.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-              <folding>
-                <element signature="e#0#62#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-4">
+              <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -73,20 +39,11 @@
       <file leaf-file-name="RequestCounting.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/RequestCounting.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+            <state relative-caret-position="357">
+              <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatabaseOptions.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DatabaseOptions.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -133,10 +90,10 @@
         <option value="$PROJECT_DIR$/src/Database.ts" />
         <option value="$PROJECT_DIR$/build/server.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/src/server.ts" />
         <option value="$PROJECT_DIR$/src/LoadBalancingStrategy.ts" />
         <option value="$PROJECT_DIR$/src/LoadBalancer.ts" />
         <option value="$PROJECT_DIR$/src/RoundRobinDNS.ts" />
+        <option value="$PROJECT_DIR$/src/server.ts" />
       </list>
     </option>
   </component>
@@ -182,6 +139,11 @@
               <item name="Load-balancer" type="b2602c69:ProjectViewProjectNode" />
               <item name="Load-balancer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Load-balancer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Load-balancer" type="462c0819:PsiDirectoryNode" />
+              <item name="testServer" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -336,11 +298,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33048000" />
+    <option name="totallyTimeSpent" value="33435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -352,11 +313,11 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.32897604" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.3409586" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="TypeScript" order="9" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26066098" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26066098" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -389,6 +350,7 @@
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.32897604" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.32897604" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -422,7 +384,7 @@
         <state relative-caret-position="680">
           <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
           <folding>
-            <element signature="e#0#62#0" expanded="true" />
+            <element signature="e#0#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -477,13 +439,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.js" />
     <entry file="file://$PROJECT_DIR$/build/DatabaseOptions.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -505,7 +461,7 @@
         <state relative-caret-position="680">
           <caret line="40" column="16" lean-forward="true" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
           <folding>
-            <element signature="e#0#62#0" expanded="true" />
+            <element signature="e#0#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -674,15 +630,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        <state relative-caret-position="459">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="64" lean-forward="true" selection-start-line="4" selection-start-column="64" selection-end-line="4" selection-end-column="64" />
+        <state relative-caret-position="-4">
+          <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -729,8 +685,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/RequestCounting.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+        <state relative-caret-position="357">
+          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
