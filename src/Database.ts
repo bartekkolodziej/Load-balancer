@@ -27,6 +27,7 @@ export default class Database{
     }
 
     public sendQuery(query: Query) {
+        console.log('czy wypisze?')
         var db = pgp('postgres://'+this.userName+':'+this.password+'@host:'+this.port+'/'+this.databaseName)
         if (query.type === 'modify') {
             db.one(query.query, 123)

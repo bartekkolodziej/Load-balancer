@@ -50,6 +50,7 @@ var callback = function (res) {
     console.log(res);
 };
 var loadBalancer = LoadBalancer.getInstance();
+<<<<<<< HEAD
 loadBalancer.setStrategy('DNSDelegation');
 <<<<<<< HEAD
 loadBalancer.addDatabase({ port: '1000', name: 'asd', password: 'ad', queryRate: 1 });
@@ -57,13 +58,21 @@ loadBalancer.addDatabase({ port: '1001', name: 'asd1', password: 'asd1', queryRa
 loadBalancer.addDatabase({ port: '1002', name: 'asd2', password: 'asd2', queryRate: 3 });
 loadBalancer.addDatabase({ port: '1003', name: 'asd3', password: 'asd3', queryRate: 4 });
 =======
+=======
+loadBalancer.setStrategy('RoundRobinDNS');
+>>>>>>> origin/master
 loadBalancer.addDatabase({ port: '1000', userName: 'asd', password: 'ad', databaseName: 'db' });
 loadBalancer.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', databaseName: 'db1' });
 loadBalancer.addDatabase({ port: '1002', userName: 'asd2', password: 'asd2', databaseName: 'db2' });
 loadBalancer.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
 >>>>>>> origin/master
 loadBalancer.sendQuery("SELECT * from table", function (res) {
+<<<<<<< HEAD
     console.log('QUERY CALLBACK', res);
 });
+=======
+    console.log(res);
+}, '1000');
+>>>>>>> origin/master
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
 loadBalancer.deleteDatabase('1003');

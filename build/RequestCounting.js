@@ -21,33 +21,31 @@ var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var RequestCounting = /** @class */ (function (_super) {
     __extends(RequestCounting, _super);
     function RequestCounting() {
-        var _this = _super.call(this) || this;
-        _this.loadBalancer = LoadBalancer_1.default.getInstance();
-        return _this;
+        return _super.call(this) || this;
     }
     RequestCounting.prototype.manageQueries = function () {
-        if (this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (LoadBalancer_1.default.getInstance().activeDatabaseCount < LoadBalancer_1.default.getInstance().databaseCount)
             return;
-        var query = this.loadBalancer.queryList[0];
+        var query = LoadBalancer_1.default.getInstance().queryList[0];
         if (!query)
             return;
         if (query.type === 'modify') {
             clearInterval(this.intervalID);
-            this.loadBalancer.activeDatabaseCount = 0;
-            this.loadBalancer.databases.forEach(function (e) { return e.sendQuery(query); });
-            this.loadBalancer.queryList.shift();
+            LoadBalancer_1.default.getInstance().activeDatabaseCount = 0;
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return e.sendQuery(query); });
+            LoadBalancer_1.default.getInstance().queryList.shift();
             return;
         }
         else {
-            this.manageNotModifyingQueries();
+            RequestCounting.manageNotModifyingQueries();
         }
     };
-    RequestCounting.prototype.manageNotModifyingQueries = function () {
+    RequestCounting.manageNotModifyingQueries = function () {
         var notModifyingQueries = [];
-        for (var _i = 0, _a = this.loadBalancer.queryList; _i < _a.length; _i++) {
+        for (var _i = 0, _a = LoadBalancer_1.default.getInstance().queryList; _i < _a.length; _i++) {
             var q = _a[_i];
             if (q.type !== 'modify') {
-                var shiftVal_1 = this.loadBalancer.queryList.shift();
+                var shiftVal_1 = LoadBalancer_1.default.getInstance().queryList.shift();
                 if (shiftVal_1)
                     notModifyingQueries.push(shiftVal_1);
             }
@@ -59,7 +57,7 @@ var RequestCounting = /** @class */ (function (_super) {
         while (notModifyingQueries.length !== 0) {
             shiftVal = notModifyingQueries.shift();
             if (shiftVal) {
-                this.loadBalancer.databases.forEach(function (db) { return db.sendQuery(shiftVal); });
+                LoadBalancer_1.default.getInstance().databases.forEach(function (db) { return db.sendQuery(shiftVal); });
             }
         }
     };

@@ -26,6 +26,7 @@ var DNSDelegation = /** @class */ (function (_super) {
         _this.loadBalancer = LoadBalancer_1.default.getInstance();
         return _this;
     }
+<<<<<<< HEAD
     DNSDelegation.prototype.manageQueries = function () {
         var _this = this;
 <<<<<<< HEAD
@@ -54,6 +55,9 @@ var DNSDelegation = /** @class */ (function (_super) {
         this.loadBalancer.databases = this.loadBalancer.databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
     };
     DNSDelegation.prototype.checkHealth = function (db) {
+=======
+    DNSDelegation.checkHealth = function (db) {
+>>>>>>> origin/master
         var _this = this;
         var t1 = new Date().getMilliseconds();
         fetch('localhost:' + db.port, { timeout: 2000 }, function (res) {
@@ -67,6 +71,28 @@ var DNSDelegation = /** @class */ (function (_super) {
             }
             _this.sortDatabasesByAccesability();
         });
+    };
+    DNSDelegation.prototype.manageQueries = function () {
+        if (LoadBalancer_1.default.getInstance().activeDatabaseCount < LoadBalancer_1.default.getInstance().databaseCount)
+            return;
+        var query = LoadBalancer_1.default.getInstance().queryList[0];
+        if (!query)
+            return;
+        if (query.type === 'modify') {
+            clearInterval(this.intervalID);
+            LoadBalancer_1.default.getInstance().activeDatabaseCount = 0;
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return e.sendQuery(query); });
+            LoadBalancer_1.default.getInstance().queryList.shift();
+            return;
+        }
+        else {
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return DNSDelegation.checkHealth(e); });
+            LoadBalancer_1.default.getInstance().databases[0].sendQuery(query);
+            LoadBalancer_1.default.getInstance().queryList.shift(); // this was probably lacking
+        }
+    };
+    DNSDelegation.sortDatabasesByAccesability = function () {
+        LoadBalancer_1.default.getInstance().databases = LoadBalancer_1.default.getInstance().databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
     };
     return DNSDelegation;
 }(LoadBalancingStrategy_1.LoadBalancingStrategy));

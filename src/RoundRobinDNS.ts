@@ -3,34 +3,32 @@ import LoadBalancer from "./LoadBalancer";
 
 export default class RoundRobinDNS extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
     intervalID!: NodeJS.Timeout;
 
     constructor(){
         super();
-        this.loadBalancer = LoadBalancer.getInstance()
     }
 
     manageQueries() {
-        if(this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if( LoadBalancer.getInstance().activeDatabaseCount < LoadBalancer.getInstance().databaseCount)
             return;
 
-        let query = this.loadBalancer.queryList[0];
+        let query = LoadBalancer.getInstance().queryList[0];
         if (!query)
             return;
 
         if (query.type === 'modify'){
             clearInterval(this.intervalID);
-            this.loadBalancer.activeDatabaseCount = 0;
-            this.loadBalancer.databases.forEach(e => e.sendQuery(query));
-            this.loadBalancer.queryList.shift();
+            LoadBalancer.getInstance().activeDatabaseCount = 0;
+            LoadBalancer.getInstance().databases.forEach(e => e.sendQuery(query));
+            LoadBalancer.getInstance().queryList.shift();
             return;
         }
         else {
-            let database = this.loadBalancer.databases.find(db => db.port === query.databasePort);
+            let database = LoadBalancer.getInstance().databases.find(db => db.port === query.databasePort);
             if(database){
                 database.sendQuery(query);
-                this.loadBalancer.queryList.shift();
+                LoadBalancer.getInstance().queryList.shift();
             }
         }
     }
