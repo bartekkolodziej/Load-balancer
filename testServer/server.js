@@ -21,7 +21,7 @@ const handler = (serverNo) => (req, res) => {
     // if (serverNo == 0) return res.status(503).end(); // <=== jak to otkomentujesz to zakonczy request i wyjebie blad w konsoli
     console.log(`incoming request ...`, req.body, '\n');
     const json = {};
-    json['success'] = `response from server #${serverNo}`;
+    json['success'] = `response from server ${serverNo}`;
     // setTimeout(() => res.send(json), 1000);
     res.send(json);
 };
