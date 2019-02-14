@@ -29,7 +29,7 @@ loadBalancer.addDatabase({ port: '1001', userName: 'asd1', password: 'asd1', dat
 loadBalancer.addDatabase({ port: '1002', userName: 'asd2', password: 'asd2', databaseName: 'db2' });
 loadBalancer.addDatabase({ port: '1003', userName: 'asd3', password: 'asd3', databaseName: 'db3' });
 let i = 0;
-while (i < 30) {
+while (i < 1000) {
     loadBalancer.sendQuery("SELECT * from table", (res: any) => {
         console.log(res)
     });
