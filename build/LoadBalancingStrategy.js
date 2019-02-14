@@ -8,7 +8,7 @@ var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var timers_1 = require("timers");
 var LoadBalancingStrategy = /** @class */ (function () {
     function LoadBalancingStrategy() {
-        this.intervalID = timers_1.setInterval(this.manageQueries, 500);
+        this.intervalID = timers_1.setInterval(this.manageQueries, 100);
     }
     LoadBalancingStrategy.prototype.notifyAboutActiveDB = function () {
         if (LoadBalancer_1.default.getInstance().activeDatabaseCount >= LoadBalancer_1.default.getInstance().databaseCount)

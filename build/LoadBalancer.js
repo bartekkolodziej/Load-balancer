@@ -29,8 +29,8 @@ var LoadBalancer = /** @class */ (function () {
             this.strategy = new RequestCounting_1.default();
     };
     LoadBalancer.prototype.addDatabase = function (options) {
-        console.log('dodaje baze');
         this.databases.push(new Database_fake_1.default(options));
+        console.log(this.databases.length);
         this.databaseCount++;
         this.activeDatabaseCount++;
     };
@@ -40,7 +40,6 @@ var LoadBalancer = /** @class */ (function () {
             return false;
         else {
             this.databases = filteredDatabases;
-            //this.databases--;
             this.databaseCount--;
             return true;
         }
@@ -48,7 +47,6 @@ var LoadBalancer = /** @class */ (function () {
     LoadBalancer.prototype.sendQuery = function (query, callback, databasePort) {
         if (callback === void 0) { callback = function (res) { }; }
         if (databasePort === void 0) { databasePort = ''; }
-        console.log('dodaje query do listy');
         var type = LoadBalancer.getQueryType(query);
         this.queryList.push({ query: query, type: type, databasePort: databasePort, callback: callback });
     };

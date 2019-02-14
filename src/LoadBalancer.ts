@@ -41,7 +41,6 @@ export default class LoadBalancer {
 
 
     public addDatabase(options: DatabaseOptions): void {
-        console.log('dodaje baze')
         this.databases.push(new Database(options));
         this.databaseCount++;
         this.activeDatabaseCount++;
@@ -54,14 +53,12 @@ export default class LoadBalancer {
             return false;
         else {
             this.databases = filteredDatabases;
-            //this.databases--;
             this.databaseCount--;
             return true;
         }
     }
 
     public sendQuery(query: string, callback = (res: any)=>{}, databasePort = '') {
-        console.log('dodaje query do listy');
         let type = LoadBalancer.getQueryType(query);
         this.queryList.push({query: query, type: type, databasePort: databasePort, callback: callback});
     }

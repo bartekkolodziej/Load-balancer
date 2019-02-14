@@ -7,37 +7,41 @@ const fetch = require('node-fetch');
 
 export default class DNSDelegation extends LoadBalancingStrategy {
 
-    loadBalancer: LoadBalancer;
 
-    constructor(){
+    constructor() {
         super();
-        this.loadBalancer = LoadBalancer.getInstance();
     }
 
     static checkHealth(db: Database): void {
         let t1 = new Date().getMilliseconds();
-        fetch('http://localhost:' + db.port, {timeout: 2000}, (res:any) => {
-            if (res.statusCode < 200 || res.statusCode > 299) {
-                db.active = false;
-                db.lastTimeResponse = 999999;
-            }
-            else {
+        fetch('http://localhost:' + db.port, {timeout: 2000})
+            .then(res => {
+                if (res.statusCode < 200 || res.statusCode > 299) {
+                    db.active = false;
+                    db.lastTimeResponse = 999999;
+                }
+                else {
+                    db.active = true;
+                    db.lastTimeResponse = new Date().getMilliseconds() - t1;
+                }
+                this.sortDatabasesByAccesability();
+            })
+            .catch(err => {
                 db.active = true;
                 db.lastTimeResponse = new Date().getMilliseconds() - t1;
-            }
-            this.sortDatabasesByAccesability();
-        })
+            })
     }
 
-     manageQueries() {
-         if(LoadBalancer.getInstance().activeDatabaseCount < LoadBalancer.getInstance().databaseCount)
-             return;
+    manageQueries() {
 
-         let query = LoadBalancer.getInstance().queryList[0];
+        if (LoadBalancer.getInstance().activeDatabaseCount < LoadBalancer.getInstance().databaseCount)
+            return;
+
+        let query = LoadBalancer.getInstance().queryList[0];
         if (!query)
             return;
 
-        if (query.type === 'modify'){
+        if (query.type === 'modify') {
             clearInterval(this.intervalID);
             LoadBalancer.getInstance().activeDatabaseCount = 0;
             LoadBalancer.getInstance().databases.forEach(e => e.sendQuery(query));
