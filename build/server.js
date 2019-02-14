@@ -56,18 +56,18 @@ loadBalancer.sendQuery("SELECT * from table", function (res) {
 }, '1000');
 loadBalancer.sendQuery("SELECT * from table", function (res) {
     console.log(res);
-}, '1001');
-loadBalancer.sendQuery("SELECT * from table", function (res) {
-    console.log(res);
-}, '1002');
-loadBalancer.sendQuery("SELECT * from table", function (res) {
-    console.log(res);
-}, '1001');
+}, '1000');
 loadBalancer.sendQuery("SELECT * from table", function (res) {
     console.log(res);
 }, '1000');
 loadBalancer.sendQuery("SELECT * from table", function (res) {
     console.log(res);
-}, '1003');
+}, '1000');
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+}, '1000');
+loadBalancer.sendQuery("SELECT * from table", function (res) {
+    console.log(res);
+}, '1000');
 loadBalancer.sendQuery("DELETE wszystko nieznam sql xD from table");
 loadBalancer.deleteDatabase('1003');
