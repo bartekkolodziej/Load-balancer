@@ -36,14 +36,14 @@ app1.listen(port1, (err: any) => {
     if (err) {
         console.log(err);
     } else {
-        console.log(`http://localhost:${port1}/world`);
+        // console.log(`http://localhost:${port1}/world`);
     }
 });
 app2.listen(port2, (err: any) => {
     if (err) {
         console.log(err);
     } else {
-        console.log(`http://localhost:${port2}/hello`);
+        // console.log(`http://localhost:${port2}/hello`);
     }
 });
 

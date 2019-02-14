@@ -30,7 +30,7 @@ app1.listen(port1, function (err) {
         console.log(err);
     }
     else {
-        console.log("http://localhost:" + port1 + "/world");
+        // console.log(`http://localhost:${port1}/world`);
     }
 });
 app2.listen(port2, function (err) {
@@ -38,7 +38,7 @@ app2.listen(port2, function (err) {
         console.log(err);
     }
     else {
-        console.log("http://localhost:" + port2 + "/hello");
+        // console.log(`http://localhost:${port2}/hello`);
     }
 });
 //1 przykladowe uzycie

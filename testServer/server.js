@@ -11,10 +11,7 @@ const app2 = express();
 const app3 = express();
 
 const body = require('body-parser');
-// app0.use(body.bodyParser());
-// app1.use(body.bodyParser());
-// app2.use(body.bodyParser());
-// app3.use(body.bodyParser());
+
 
 app0.use(body.json());
 app1.use(body.json());
