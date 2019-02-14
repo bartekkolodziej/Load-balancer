@@ -45,21 +45,22 @@ var RequestCounting = /** @class */ (function (_super) {
         for (var _i = 0, _a = LoadBalancer_1.default.getInstance().queryList; _i < _a.length; _i++) {
             var q = _a[_i];
             if (q.type !== 'modify') {
-                var shiftVal_1 = LoadBalancer_1.default.getInstance().queryList.shift();
-                if (shiftVal_1)
-                    notModifyingQueries.push(shiftVal_1);
+                var shiftVal = LoadBalancer_1.default.getInstance().queryList.shift();
+                if (shiftVal)
+                    notModifyingQueries.push(shiftVal);
             }
             else
                 break;
         }
         //narazie ten algorytm zakłada że współczynnik udziału jest równy i rozdziela po równo zapytania
-        var shiftVal;
-        while (notModifyingQueries.length !== 0) {
-            shiftVal = notModifyingQueries.shift();
-            if (shiftVal) {
-                LoadBalancer_1.default.getInstance().databases.forEach(function (db) { return db.sendQuery(shiftVal); });
+        var queryPerDB = Math.ceil(notModifyingQueries.length / LoadBalancer_1.default.getInstance().databaseCount);
+        LoadBalancer_1.default.getInstance().databases.forEach(function (db) {
+            for (var i_1 = 0; i_1 < queryPerDB; i_1++) {
+                var shiftVal = notModifyingQueries.shift();
+                if (shiftVal)
+                    db.sendQuery(shiftVal);
             }
-        }
+        });
     };
     return RequestCounting;
 }(LoadBalancingStrategy_1.LoadBalancingStrategy));
