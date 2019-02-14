@@ -11,14 +11,16 @@ export default class DNSDelegation extends LoadBalancingStrategy {
 
     constructor(){
         super();
-        this.loadBalancer = LoadBalancer.getInstance()
+        this.loadBalancer = LoadBalancer.getInstance();
     }
 
      manageQueries() {
+        this.loadBalancer = LoadBalancer.getInstance();
+
          if(!this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
              return;
 
-        let query = this.loadBalancer.queryList[0];
+         let query = this.loadBalancer.queryList[0];
         if (!query)
             return;
 

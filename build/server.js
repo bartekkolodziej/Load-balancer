@@ -1,5 +1,7 @@
 var body = require('body-parser');
 var express = require('express');
+// require('typescript-require');
+// const {LoadBalancer} = require('./LoadBalancer.js');
 var LoadBalancer = require('./LoadBalancer.js').LoadBalancer;
 var app1 = express();
 var app2 = express();

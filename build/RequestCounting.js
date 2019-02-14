@@ -12,15 +12,21 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var LoadBalancingStrategy_1 = require("./LoadBalancingStrategy");
+var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var RequestCounting = /** @class */ (function (_super) {
     __extends(RequestCounting, _super);
     function RequestCounting() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.loadBalancer = LoadBalancer_1.default.getInstance();
+        return _this;
     }
     RequestCounting.prototype.manageQueries = function () {
-        if (this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
+        if (this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
             return;
         var query = this.loadBalancer.queryList[0];
         if (!query)
