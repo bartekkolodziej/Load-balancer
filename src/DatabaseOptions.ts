@@ -1,6 +1,7 @@
 export interface DatabaseOptions {
     port: string,
-    name: string,
+    userName: string,
     password: string,
+    databaseName: string,
     queryRate?: number;
 }

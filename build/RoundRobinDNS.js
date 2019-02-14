@@ -44,7 +44,10 @@ var RoundRobinDNS = /** @class */ (function (_super) {
                 database.sendQuery(query);
                 this.loadBalancer.queryList.shift();
             }
+<<<<<<< HEAD
             //database.sendQuery(query);
+=======
+>>>>>>> origin/master
         }
     };
     return RoundRobinDNS;

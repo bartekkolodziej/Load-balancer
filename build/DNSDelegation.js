@@ -28,6 +28,10 @@ var DNSDelegation = /** @class */ (function (_super) {
     }
     DNSDelegation.prototype.manageQueries = function () {
         var _this = this;
+<<<<<<< HEAD
+=======
+        this.loadBalancer = LoadBalancer_1.default.getInstance();
+>>>>>>> origin/master
         if (!this.loadBalancer || this.loadBalancer.activeDatabaseCount < this.loadBalancer.databaseCount)
             return;
         var query = this.loadBalancer.queryList[0];

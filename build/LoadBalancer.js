@@ -20,6 +20,10 @@ var LoadBalancer = /** @class */ (function () {
         return LoadBalancer.instance;
     };
     LoadBalancer.prototype.setStrategy = function (strategy) {
+<<<<<<< HEAD
+=======
+        console.log('setuje strategie');
+>>>>>>> origin/master
         if (strategy === 'DNSDelegation')
             this.strategy = new DNSDelegation_1.default();
         else if (strategy === 'RoundRobinDNS')
@@ -28,8 +32,10 @@ var LoadBalancer = /** @class */ (function () {
             this.strategy = new RequestCounting_1.default();
     };
     LoadBalancer.prototype.addDatabase = function (options) {
+        console.log('dodaje baze');
         this.databases.push(new Database_1.default(options));
         this.databaseCount++;
+        this.activeDatabaseCount++;
     };
     LoadBalancer.prototype.deleteDatabase = function (port) {
         var filteredDatabases = this.databases.filter(function (e) { return e.port !== port; });
@@ -44,8 +50,14 @@ var LoadBalancer = /** @class */ (function () {
     LoadBalancer.prototype.sendQuery = function (query, callback, databasePort) {
         if (callback === void 0) { callback = function (res) { }; }
         if (databasePort === void 0) { databasePort = ''; }
+<<<<<<< HEAD
         // console.log('hit');
         this.strategy.sendQuery(query, callback, databasePort);
+=======
+        console.log('dodaje query do listy');
+        var type = LoadBalancer.getQueryType(query);
+        this.queryList.push({ query: query, type: type, databasePort: databasePort, callback: callback });
+>>>>>>> origin/master
     };
     LoadBalancer.getQueryType = function (query) {
         query = query.toUpperCase();

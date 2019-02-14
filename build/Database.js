@@ -15,8 +15,9 @@ var Database = /** @class */ (function () {
     }
     Database.prototype.sendQuery = function (query) {
         var _this = this;
+        console.log('tutaj jestem');
         if (query.type === 'modify') {
-            fetch('localhost:' + this.port, { method: 'POST', body: query.query })
+            fetch("http://localhost:3000/world", { method: 'POST', body: query.query })
                 .then(function (res) { return res.json(); })
                 .then(function (json) {
                 _this.loadBalancer.setActiveDatabaseCount();
@@ -24,7 +25,7 @@ var Database = /** @class */ (function () {
             });
         }
         else {
-            fetch('localhost:' + this.port, { method: 'POST', body: query.query })
+            fetch("http://localhost:3000/world", { method: 'POST', body: query.query })
                 .then(function (res) { return res.json(); })
                 .then(function (json) { return query.callback(json); });
         }
