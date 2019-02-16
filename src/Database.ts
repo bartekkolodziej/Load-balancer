@@ -2,7 +2,7 @@ import LoadBalancer from "./LoadBalancer";
 import Query from "./Query";
 import {DatabaseOptions} from "./DatabaseOptions";
 
-const pgp = require('pg-promise');
+const pgp = require('pg-promise')(/*options*/);
 
 export default class Database{
 
@@ -14,8 +14,18 @@ export default class Database{
     databaseName: string;
     active: boolean;
     lastTimeResponse: number;
+    db: any;
 
     constructor(options: DatabaseOptions) {
+        var cn = {
+            host: 'localhost',
+            port: options.port,
+            database: options.databaseName,
+            user: options.userName,
+            password: options.password
+        };
+        this.loadBalancer = LoadBalancer.getInstance();
+        this.db = pgp(cn);
         this.userName = options.userName;
         this.databaseName = options.databaseName;
         this.password = options.password;
@@ -26,22 +36,20 @@ export default class Database{
     }
 
     public sendQuery(query: Query) {
-        var db = pgp('postgres://'+this.userName+':'+this.password+'@host:'+this.port+'/'+this.databaseName)
         if (query.type === 'modify') {
-            db.one(query.query, 123)
-                .then((res: any) => res.json())
+            this.db.none(query.query, query.parameters)
                 .then((json: any) => {
                     this.loadBalancer.setActiveDatabaseCount();
-                    query.callback(json);
                 })
-                .catch(function (error) {
+                .catch((error: any) => {
                     console.log('ERROR:', error)
                 })
         } else {
-            db.one(query.query, 123)
-                .then((res: any) => res.json())
-                .then((json: any) => query.callback(json))
-                .catch(function (error) {
+            this.db.any(query.query, query.parameters)
+                .then((json: any) => {
+                    query.callback(json)
+                })
+                .catch((error: any) => {
                     console.log('ERROR:', error)
                 })
         }

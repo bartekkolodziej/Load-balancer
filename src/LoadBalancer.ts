@@ -55,9 +55,9 @@ export default class LoadBalancer {
         }
     }
 
-    public sendQuery(query: string, callback = (res: any)=>{}, databasePort = '') {
+    public sendQuery(query: string, parameters: any[], callback = (res: any)=>{}, databasePort = '') {
         let type = LoadBalancer.getQueryType(query);
-        this.queryList.push({query: query, type: type, databasePort: databasePort, callback: callback});
+        this.queryList.push({query: query, parameters: parameters, type: type, databasePort: databasePort, callback: callback});
     }
 
     static getQueryType(query: string): string {
