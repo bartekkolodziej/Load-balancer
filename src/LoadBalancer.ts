@@ -1,4 +1,4 @@
-import Database from "./Database.fake";
+import Database from "./Database";
 import { LoadBalancingStrategy } from "./LoadBalancingStrategy";
 import DNSDelegation from "./DNSDelegation";
 import RoundRobinDNS from "./RoundRobinDNS";
@@ -43,7 +43,7 @@ export default class LoadBalancer {
         this.activeDatabaseCount++;
     }
 
-    public deleteDatabase(port: string): boolean {
+    public deleteDatabase(port: number): boolean {
         let filteredDatabases = this.databases.filter(e => e.port !== port);
 
         if (filteredDatabases === this.databases)
@@ -55,7 +55,7 @@ export default class LoadBalancer {
         }
     }
 
-    public sendQuery(query: string, parameters: any[], callback = (res: any)=>{}, databasePort = '') {
+    public sendQuery(query: string, parameters: any[], callback = (res: any)=>{}, databasePort = null) {
         let type = LoadBalancer.getQueryType(query);
         this.queryList.push({query: query, parameters: parameters, type: type, databasePort: databasePort, callback: callback});
     }

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Database_fake_1 = __importDefault(require("./Database.fake"));
+var Database_1 = __importDefault(require("./Database"));
 var DNSDelegation_1 = __importDefault(require("./DNSDelegation"));
 var RoundRobinDNS_1 = __importDefault(require("./RoundRobinDNS"));
 var RequestCounting_1 = __importDefault(require("./RequestCounting"));
@@ -28,7 +28,7 @@ var LoadBalancer = /** @class */ (function () {
             this.strategy = new RequestCounting_1.default();
     };
     LoadBalancer.prototype.addDatabase = function (options) {
-        this.databases.push(new Database_fake_1.default(options));
+        this.databases.push(new Database_1.default(options));
         this.databaseCount++;
         this.activeDatabaseCount++;
     };
@@ -42,11 +42,11 @@ var LoadBalancer = /** @class */ (function () {
             return true;
         }
     };
-    LoadBalancer.prototype.sendQuery = function (query, callback, databasePort) {
+    LoadBalancer.prototype.sendQuery = function (query, parameters, callback, databasePort) {
         if (callback === void 0) { callback = function (res) { }; }
-        if (databasePort === void 0) { databasePort = ''; }
+        if (databasePort === void 0) { databasePort = null; }
         var type = LoadBalancer.getQueryType(query);
-        this.queryList.push({ query: query, type: type, databasePort: databasePort, callback: callback });
+        this.queryList.push({ query: query, parameters: parameters, type: type, databasePort: databasePort, callback: callback });
     };
     LoadBalancer.getQueryType = function (query) {
         query = query.toUpperCase();

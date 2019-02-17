@@ -4,37 +4,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
-var fetch = require('node-fetch');
-var pgp = require('pg-promise');
+var pgp = require('pg-promise')( /*options*/);
 var Database = /** @class */ (function () {
     function Database(options) {
         this.loadBalancer = LoadBalancer_1.default.getInstance();
+        var cn = {
+            host: 'localhost',
+            port: options.port,
+            database: options.databaseName,
+            user: options.userName,
+            password: options.password
+        };
+        this.loadBalancer = LoadBalancer_1.default.getInstance();
+        this.db = pgp(cn);
         this.userName = options.userName;
         this.databaseName = options.databaseName;
         this.password = options.password;
         this.port = options.port;
         this.active = true;
         this.lastTimeResponse = 0;
-        this.queryRate = 1; // wtf is this? passed 1 as default but not sure if it works
+        this.queryRate = 1;
     }
     Database.prototype.sendQuery = function (query) {
         var _this = this;
-        var db = pgp('postgres://' + this.userName + ':' + this.password + '@host:' + this.port + '/' + this.databaseName);
         if (query.type === 'modify') {
-            db.one(query.query, 123)
-                .then(function (res) { return res.json(); })
+            this.db.none(query.query, query.parameters)
                 .then(function (json) {
                 _this.loadBalancer.setActiveDatabaseCount();
-                query.callback(json);
             })
                 .catch(function (error) {
                 console.log('ERROR:', error);
             });
         }
         else {
-            db.one(query.query, 123)
-                .then(function (res) { return res.json(); })
-                .then(function (json) { return query.callback(json); })
+            this.db.any(query.query, query.parameters)
+                .then(function (json) {
+                query.callback(json);
+            })
                 .catch(function (error) {
                 console.log('ERROR:', error);
             });

@@ -8,7 +8,7 @@ export default class Database{
 
     loadBalancer = LoadBalancer.getInstance();
     queryRate: number; //od 1 do 10
-    port: string;
+    port: number;
     userName: string;
     password: string;
     databaseName: string;
