@@ -6,8 +6,7 @@ const pgp = require('pg-promise')(/*options*/);
 
 export default class Database{
 
-    loadBalancer = LoadBalancer.getInstance();
-    queryRate: number; //od 1 do 10
+    queryRate: number;
     port: number;
     userName: string;
     password: string;
@@ -17,14 +16,13 @@ export default class Database{
     db: any;
 
     constructor(options: DatabaseOptions) {
-        var cn = {
+        const cn = {
             host: 'localhost',
             port: options.port,
             database: options.databaseName,
             user: options.userName,
             password: options.password
         };
-        this.loadBalancer = LoadBalancer.getInstance();
         this.db = pgp(cn);
         this.userName = options.userName;
         this.databaseName = options.databaseName;
@@ -39,7 +37,7 @@ export default class Database{
         if (query.type === 'modify') {
             this.db.none(query.query, query.parameters)
                 .then((json: any) => {
-                    this.loadBalancer.setActiveDatabaseCount();
+                    LoadBalancer.getInstance().setActiveDatabaseCount();
                 })
                 .catch((error: any) => {
                     console.log('ERROR:', error)

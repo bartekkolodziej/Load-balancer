@@ -5,7 +5,6 @@ const fetch = require('node-fetch');
 
 export default class Database {
 
-    loadBalancer = LoadBalancer.getInstance();
     queryRate: number; //od 1 do 10
     port: string;
     active: boolean;
@@ -30,7 +29,7 @@ export default class Database {
             })
                 .then((res: any) => res.json())
                 .then((json: any) => {
-                    this.loadBalancer.setActiveDatabaseCount();
+                    LoadBalancer.getInstance().setActiveDatabaseCount();
                     query.callback(json);
                 })
                 .catch((err: any) => {

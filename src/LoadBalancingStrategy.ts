@@ -1,5 +1,4 @@
 import LoadBalancer from "./LoadBalancer";
-// const LoadBalancer = require('./LoadBalancer.ts').LoadBalancer;
 
 import {setInterval} from "timers";
 

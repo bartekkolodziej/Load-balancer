@@ -42,7 +42,6 @@ export default class RequestCounting extends LoadBalancingStrategy {
                 break;
         }
 
-        //narazie ten algorytm zakłada że współczynnik udziału jest równy i rozdziela po równo zapytania
         let queryPerDB = Math.ceil(notModifyingQueries.length/LoadBalancer.getInstance().databaseCount);
 
         LoadBalancer.getInstance().databases.forEach(db => {
