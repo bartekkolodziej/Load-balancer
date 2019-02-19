@@ -13,7 +13,7 @@ export default class Balanser {
         LoadBalancer.getInstance().setStrategy(strategy);
     }
 
-    public sendQuery(query: string, parameters: any[], callback = (res: any)=>{}, databasePort = ''): void {
+    public sendQuery(query: string, parameters: any[], callback = (res: any)=>{}, databasePort = null): void {
         LoadBalancer.getInstance().sendQuery(query, parameters, callback, databasePort)
     }
 

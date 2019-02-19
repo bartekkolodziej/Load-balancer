@@ -25,14 +25,20 @@ var Database = /** @class */ (function () {
         this.lastTimeResponse = 0;
         this.queryRate = 1;
     }
+    Database.prototype.finalise = function (str) {
+        this.db.none(str, []);
+        console.log(str);
+    };
     Database.prototype.sendQuery = function (query) {
         var _this = this;
         if (query.type === 'modify') {
-            this.db.none(query.query, query.parameters)
+            this.db.none("BEGIN;" + query.query, query.parameters)
                 .then(function (json) {
                 _this.loadBalancer.setActiveDatabaseCount();
             })
                 .catch(function (error) {
+                _this.loadBalancer.setError();
+                _this.loadBalancer.setActiveDatabaseCount();
                 console.log('ERROR:', error);
             });
         }

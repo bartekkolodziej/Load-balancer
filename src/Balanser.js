@@ -11,7 +11,7 @@ var Balanser = /** @class */ (function () {
     };
     Balanser.prototype.sendQuery = function (query, parameters, callback, databasePort) {
         if (callback === void 0) { callback = function (res) { }; }
-        if (databasePort === void 0) { databasePort = ''; }
+        if (databasePort === void 0) { databasePort = null; }
         LoadBalancer.getInstance().sendQuery(query, parameters, callback, databasePort);
     };
     Balanser.prototype.addDatabase = function (options) {

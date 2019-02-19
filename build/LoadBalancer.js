@@ -59,6 +59,9 @@ var LoadBalancer = /** @class */ (function () {
         else
             return 'not-modify';
     };
+    LoadBalancer.prototype.setError = function () {
+        this.strategy.error = 1;
+    };
     LoadBalancer.prototype.setActiveDatabaseCount = function () {
         this.activeDatabaseCount++;
         this.strategy.notifyAboutActiveDB();

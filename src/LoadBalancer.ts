@@ -72,6 +72,10 @@ export default class LoadBalancer {
             return 'not-modify';
     }
 
+    public setError() {
+        this.strategy.error = 1;
+    }
+
     setActiveDatabaseCount() {
         this.activeDatabaseCount++;
         this.strategy.notifyAboutActiveDB();

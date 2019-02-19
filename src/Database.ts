@@ -35,13 +35,20 @@ export default class Database{
         this.queryRate = 1; 
     }
 
+    public finalise(str: string) {
+        this.db.none(str, []);
+        console.log(str);
+    }
+
     public sendQuery(query: Query) {
         if (query.type === 'modify') {
-            this.db.none(query.query, query.parameters)
+            this.db.none("BEGIN;" + query.query, query.parameters)
                 .then((json: any) => {
                     this.loadBalancer.setActiveDatabaseCount();
                 })
                 .catch((error: any) => {
+                    this.loadBalancer.setError();
+                    this.loadBalancer.setActiveDatabaseCount();
                     console.log('ERROR:', error)
                 })
         } else {
