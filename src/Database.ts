@@ -37,7 +37,6 @@ export default class Database{
 
     public finalise(str: string) {
         this.db.none(str, []);
-        console.log(str);
     }
 
     public sendQuery(query: Query) {

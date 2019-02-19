@@ -27,7 +27,6 @@ var Database = /** @class */ (function () {
     }
     Database.prototype.finalise = function (str) {
         this.db.none(str, []);
-        console.log(str);
     };
     Database.prototype.sendQuery = function (query) {
         var _this = this;

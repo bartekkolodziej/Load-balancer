@@ -12,10 +12,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var LoadBalancingStrategy_1 = require("./LoadBalancingStrategy");
-var LoadBalancer_1 = require("./LoadBalancer");
-var fetch = require('node-fetch');
+var LoadBalancer_1 = __importDefault(require("./LoadBalancer"));
 var DNSDelegation = /** @class */ (function (_super) {
     __extends(DNSDelegation, _super);
     function DNSDelegation() {
@@ -26,33 +28,32 @@ var DNSDelegation = /** @class */ (function (_super) {
         var t1 = new Date().getMilliseconds();
         database.db.any('SELECT * FROM actor')
             .then(function (res) {
-            console.log(res);
             database.lastTimeResponse = new Date().getMilliseconds() - t1;
             _this.sortDatabasesByAccesability();
         });
     };
     DNSDelegation.prototype.manageQueries = function () {
-        if (LoadBalancer_1["default"].getInstance().activeDatabaseCount < LoadBalancer_1["default"].getInstance().databaseCount)
+        if (LoadBalancer_1.default.getInstance().activeDatabaseCount < LoadBalancer_1.default.getInstance().databaseCount)
             return;
-        var query = LoadBalancer_1["default"].getInstance().queryList[0];
+        var query = LoadBalancer_1.default.getInstance().queryList[0];
         if (!query)
             return;
         if (query.type === 'modify') {
             clearInterval(this.intervalID);
-            LoadBalancer_1["default"].getInstance().activeDatabaseCount = 0;
-            LoadBalancer_1["default"].getInstance().databases.forEach(function (e) { return e.sendQuery(query); });
-            LoadBalancer_1["default"].getInstance().queryList.shift();
+            LoadBalancer_1.default.getInstance().activeDatabaseCount = 0;
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return e.sendQuery(query); });
+            LoadBalancer_1.default.getInstance().queryList.shift();
             return;
         }
         else {
-            LoadBalancer_1["default"].getInstance().databases.forEach(function (e) { return DNSDelegation.checkHealth(e); });
-            LoadBalancer_1["default"].getInstance().databases[0].sendQuery(query);
-            LoadBalancer_1["default"].getInstance().queryList.shift(); // this was probably lacking
+            LoadBalancer_1.default.getInstance().databases.forEach(function (e) { return DNSDelegation.checkHealth(e); });
+            LoadBalancer_1.default.getInstance().databases[0].sendQuery(query);
+            LoadBalancer_1.default.getInstance().queryList.shift(); // this was probably lacking
         }
     };
     DNSDelegation.sortDatabasesByAccesability = function () {
-        LoadBalancer_1["default"].getInstance().databases = LoadBalancer_1["default"].getInstance().databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
+        LoadBalancer_1.default.getInstance().databases = LoadBalancer_1.default.getInstance().databases.sort(function (a, b) { return a.lastTimeResponse - b.lastTimeResponse; });
     };
     return DNSDelegation;
 }(LoadBalancingStrategy_1.LoadBalancingStrategy));
-exports["default"] = DNSDelegation;
+exports.default = DNSDelegation;

@@ -15,7 +15,7 @@ export default class Database {
         this.port = options.port;
         this.active = true;
         this.lastTimeResponse = 0;
-        this.queryRate = 1; // wtf is this? passed 1 as default but not sure if it works
+        this.queryRate = 1; 
     }
 
     public sendQuery(query: Query) {

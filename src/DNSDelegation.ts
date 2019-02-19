@@ -2,8 +2,6 @@ import {LoadBalancingStrategy} from "./LoadBalancingStrategy";
 import Database from "./Database";
 import LoadBalancer from "./LoadBalancer";
 
-const fetch = require('node-fetch');
-
 
 export default class DNSDelegation extends LoadBalancingStrategy {
 
@@ -16,7 +14,6 @@ export default class DNSDelegation extends LoadBalancingStrategy {
         let t1 = new Date().getMilliseconds();
         database.db.any('SELECT * FROM actor')
             .then(res => {
-                console.log(res);
                 database.lastTimeResponse = new Date().getMilliseconds() - t1;
                 this.sortDatabasesByAccesability();
             });
