@@ -12,24 +12,15 @@ export default class DNSDelegation extends LoadBalancingStrategy {
         super();
     }
 
-    static checkHealth(db: Database): void {
+    static checkHealth(database: Database): void {
         let t1 = new Date().getMilliseconds();
-        fetch('http://localhost:' + db.port)
+        database.db.any('SELECT * FROM actor')
             .then(res => {
-                if (res.statusCode < 200 || res.statusCode > 299) {
-                    db.active = false;
-                    db.lastTimeResponse = 999999;
-                }
-                else {
-                    db.active = true;
-                    db.lastTimeResponse = new Date().getMilliseconds() - t1;
-                }
+                console.log(res);
+                database.lastTimeResponse = new Date().getMilliseconds() - t1;
                 this.sortDatabasesByAccesability();
-            })
-            .catch(err => {
-                db.active = true;
-                db.lastTimeResponse = new Date().getMilliseconds() - t1;
-            })
+            });
+
     }
 
     manageQueries() {

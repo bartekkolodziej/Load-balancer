@@ -21,23 +21,14 @@ var DNSDelegation = /** @class */ (function (_super) {
     function DNSDelegation() {
         return _super.call(this) || this;
     }
-    DNSDelegation.checkHealth = function (db) {
+    DNSDelegation.checkHealth = function (database) {
         var _this = this;
         var t1 = new Date().getMilliseconds();
-        fetch('http://localhost:' + db.port)
+        database.db.any('SELECT * FROM actor')
             .then(function (res) {
-            if (res.statusCode < 200 || res.statusCode > 299) {
-                db.active = false;
-                db.lastTimeResponse = 999999;
-            }
-            else {
-                db.active = true;
-                db.lastTimeResponse = new Date().getMilliseconds() - t1;
-            }
+            console.log(res);
+            database.lastTimeResponse = new Date().getMilliseconds() - t1;
             _this.sortDatabasesByAccesability();
-        })["catch"](function (err) {
-            db.active = true;
-            db.lastTimeResponse = new Date().getMilliseconds() - t1;
         });
     };
     DNSDelegation.prototype.manageQueries = function () {
